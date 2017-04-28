@@ -112,8 +112,8 @@ app.post('/update', function(req,res){
     }
     else{
       console.log('this is req.body ' , req.body);
-      console.log('UPDATE puppy SET pet_name= :name WHERE id= :id ', {name:updates.name, id:updates.id});
-      // console.log(connection.query();
+      console.log();
+      connection.query('UPDATE puppy SET pet_name= $1, breed= $2, color=$3 WHERE id= $4', [updates.name, updates.breed, updates.color, updates.id]);
       done();
       res.sendStatus(200);
 
