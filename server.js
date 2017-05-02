@@ -20,7 +20,7 @@ app.use(express.static('public'));
 app.use(bodyParser.urlencoded({extended:true}));
 
 
-app.listen(5555, function(){
+app.listen(5545, function(){
   console.log('server up on 5555');
 });
 
@@ -67,7 +67,7 @@ app.post('/addPet', function(req, res) {
     else{
       connection.query(insertStr, insertVals);
       done();
-      res.send(200);
+      res.sendStatus(200);
     }
   });
 }); // end of app.post

@@ -1,0 +1,25 @@
+table{
+text-align: left;
+display: inline-block;
+padding-left: 50px;
+}
+body{
+  font-size: 15px;
+  color: red;
+  text-shadow: 5px 5px 5px white;
+  background-image: url(dogs.img);
+}
+h1,h2{
+  font-size: 70px;
+  color:red;
+  text-shadow: 5px 5px 5px white;
+}
+
+tr, th{
+  color: red;
+  text-shadow: 5px 5px 5px white;
+}
+
+div{
+  background-color: black;
+}
