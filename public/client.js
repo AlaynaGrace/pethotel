@@ -26,9 +26,6 @@ function getOwners(){
         console.log(full);
         ownerArray.push(full);
       }
-      console.log('ownerArray',ownerArray);
-      ownerArray = $.unique(ownerArray);
-      console.log('Unique array',ownerArray);
 
       for(var i = 0; i<ownerArray.length; i++){
         $('#owners').append('<option>' + ownerArray[i] + '</option>');

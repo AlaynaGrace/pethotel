@@ -36,13 +36,14 @@ app.get('/pets',function(req,res){
     }
     else{
       console.log('connected to db');//else send message, 'connected to DB'
-      var resultSet = connection.query('SELECT * FROM puppy');
+      var resultSet = connection.query('SELECT * FROM puppy JOIN puppy_owners ON puppy.id = puppy_owners.pet_id JOIN owners ON puppy_owners.owner_id = owners.id');
 
       resultSet.on('row', function(row){
         pets.push(row);
       });
       resultSet.on('end', function(){
         done();
+        console.log(pets);
         res.send(pets);
       });
     }
@@ -58,14 +59,31 @@ app.post('/addPet', function(req, res) {
     data.breed,
     data.color
   ];
-  var insertStr = 'INSERT INTO puppy(owner_first,owner_last,pet_name,breed,color) VALUES ($1,$2,$3,$4,$5)'
+  var insertStr = 'SELECT id FROM owners WHERE owner_first = $1 AND owner_last = $2 ';
+  var poobegone = 'SELECT id FROM puppy WHERE pet_name= $1 AND color = $2 AND breed = $3 ';
+  var vapepoorise = 'INSERT INTO puppy (pet_name, breed, color) VALUES ($1, $2, $3) ';
+
+
+
   pool.connect(function(err, connection, done){
     if(err){//is it possible to have the err in the else statment and the
       console.log(err);//connection.query in the if statement
       res.send(400);
     }
     else{
-      connection.query(insertStr, insertVals);
+      // var petid=null;
+      connection.query(vapepoorise,[data.pet, data.breed, data.color]); //returning statement in query string
+      var petid = connection.query(poobegone,[data.pet, data.color, data.breed], function(err, results){
+        console.log('THIS IS DJGTAKDSFAKSDFASDKFK ', results.rows[0].id);
+        return results.rows[0].id;
+      });
+
+      var ownerid = connection.query(insertStr, [data.firstName, data.lastName], function(err, results){
+        console.log('zzzzzzzzzzzzzzzzzzzzzzzzzzzzz', results.rows[0].id);
+        return results.rows[0].id;
+      });
+      console.log(petid, ownerid, 'zzzzzzzzzzzzzzzzzzzzzzzzzzzzz');
+      // connection.query('INSERT INTO puppy_owners (owner_id, pet_id) VALUES($1, $2)', [ownerid, petid]);
       done();
       res.sendStatus(200);
     }
